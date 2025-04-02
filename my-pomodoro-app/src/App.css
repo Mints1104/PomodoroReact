@@ -1,0 +1,538 @@
+/* src/App.css */
+
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Basic Reset & Body */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* --- THEMES --- */
+:root {
+  /* Default Theme (Red) */
+  --color-primary: #f76c6c;
+  --color-secondary: #f8a5a5; /* Lighter shade for accents */
+  --color-background: #ffffff;
+  --color-text: #333333;
+  --color-text-muted: #666666;
+  --color-button-bg: #e0e0e0;
+  --color-button-text: #333333;
+  --color-button-hover-bg: #d0d0d0;
+  --color-settings-bg: #f9f9f9;
+  --color-border: #cccccc;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body.theme-blue {
+  --color-primary: #6c99f7;
+  --color-secondary: #a5c1f8;
+}
+
+body.theme-green {
+  --color-primary: #6cf789;
+  --color-secondary: #a5f8b8;
+}
+
+body.theme-purple {
+  --color-primary: #a96cf7;
+  --color-secondary: #cda5f8;
+}
+
+
+body.dark-mode {
+  --color-background: #1e1e1e; /* Slightly different dark */
+  --color-text: #e0e0e0;
+  --color-text-muted: #aaaaaa;
+  --color-button-bg: #444444;
+  --color-button-text: #e0e0e0;
+  --color-button-hover-bg: #555555;
+  --color-settings-bg: #2a2a2a;
+  --color-border: #555555;
+  --shadow-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Apply theme variables */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* App Container */
+/* Modify the app-container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers child elements horizontally */
+  justify-content: center; /* Centers content vertically */
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Increase the width of key containers */
+.timer-display {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 100%;
+  max-width: 800px; /* Adjust as needed */
+}
+
+/* Make the progress bar wider on desktop */
+.progress-bar-container,
+.progress-circular-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 800px; /* For the bar */
+}
+
+/* Make the circular timer larger on desktop */
+@media (min-width: 768px) {
+  /* Create a wider content area */
+  .timer-display, 
+  .controls,
+  .progress-bar-container {
+    width: 80%; /* Use 80% of screen width */
+    max-width: 1200px; /* But don't get too wide on ultra-wide screens */
+  }
+}
+
+.progress-circular-container {
+  width: 400px;
+  height: 400px;
+}
+
+.timer-text-linear {
+  font-size: 8rem; /* Much bigger on desktop */
+}
+
+.timer-text-circular {
+  font-size: 6rem;
+}
+
+.app-title {
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 2rem; /* Responsive font size */
+    font-weight: 600;
+}
+
+/* Timer Display */
+.timer-display {
+  max-width: 400px;
+}
+
+/* --- Linear Timer --- */
+.timer-text-linear {
+  font-size: clamp(4rem, 15vw, 6rem); /* Responsive font size */
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--color-primary);
+  line-height: 1.1;
+}
+
+.progress-bar-container {
+  width: 100%; /* Full width of its container */
+  height: 20px;
+  background-color: var(--color-button-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  margin: 0 auto; /* Center if parent is wider */
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--color-primary);
+  width: 100%; /* Controlled by inline style */
+  transition: width 0.5s linear, background-color 0.3s ease;
+  border-radius: 10px 0 0 10px; /* Smooth edge */
+}
+
+/* --- Circular Timer --- */
+.progress-circular-container {
+    position: relative;
+    width: clamp(200px, 60vw, 300px); /* Responsive size */
+    height: clamp(200px, 60vw, 300px);
+    margin: 0 auto; /* Center it */
+}
+
+.progress-circular-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); /* Start from the top */
+}
+
+.progress-circular-bg,
+.progress-circular-fg {
+    fill: none;
+    stroke-width: 15; /* Thickness of the circle */
+}
+
+.progress-circular-bg {
+    stroke: var(--color-button-bg); /* Background track */
+}
+
+.progress-circular-fg {
+    stroke: var(--color-primary); /* Foreground progress */
+    stroke-linecap: round; /* Rounded ends */
+    transition: stroke-dashoffset 0.5s linear, stroke 0.3s ease;
+}
+
+.timer-text-circular {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(3rem, 10vw, 4.5rem); /* Responsive font size */
+    font-weight: bold;
+    color: var(--color-primary);
+    line-height: 1;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px; /* Match other container max-widths */
+}
+
+.control-button, .settings-button-component {
+  padding: 15px 25px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  border-radius: 6px; /* Consistent rounding */
+  background-color: var(--color-button-bg);
+  color: var(--color-button-text);
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.control-button:hover, .settings-button-component:hover {
+  background-color: var(--color-button-hover-bg);
+  transform: translateY(-1px); /* Subtle lift effect */
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+.control-button:active, .settings-button-component:active {
+  transform: translateY(0px); /* Push down effect */
+   box-shadow: 0 1px 2px var(--shadow-color);
+}
+
+
+.control-button.active {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+/* Session Counter */
+.session-counter {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-top: 10px; /* Space above counter */
+    text-align: center;
+    width: 100%;
+}
+
+
+/* Settings Button (Positioned) */
+.settings-button-container {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 20; /* Above settings panel when closed */
+}
+
+/* Settings Panel */
+.settings-panel {
+  background-color: var(--color-settings-bg);
+  border: 1px solid var(--color-border);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px var(--shadow-color);
+  position: fixed; /* Use fixed to stay in view on scroll */
+  top: 60px; /* Adjust based on button position */
+  right: 15px;
+  width: 90%; /* Responsive width */
+  max-width: 320px; /* Max width */
+  z-index: 10;
+
+  /* --- Animation --- */
+  transform: translateX(110%); /* Start off-screen */
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease-in-out;
+  max-height: calc(100vh - 80px); /* Limit height */
+  overflow-y: auto; /* Add scroll if content overflows */
+}
+
+.settings-panel.show {
+  transform: translateX(0); /* Slide in */
+  opacity: 1;
+}
+
+/* Settings Panel Overlay (optional: click outside to close) */
+.settings-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Semi-transparent black */
+    z-index: 5; /* Below panel, above content */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease-in-out, visibility 0s linear 0.4s;
+}
+.settings-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease-in-out, visibility 0s linear 0s;
+}
+body.dark-mode .settings-overlay {
+    background: rgba(255, 255, 255, 0.1); /* Lighter overlay for dark mode */
+}
+
+
+.settings-panel h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: var(--color-primary);
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 10px;
+  font-weight: 600;
+}
+
+.setting-item {
+  margin-bottom: 18px; /* Increased spacing */
+  display: flex;
+  flex-direction: column; /* Stack label and controls */
+  gap: 8px; /* Space between label and controls */
+}
+
+.setting-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+
+.setting-item label {
+  /* flex-basis: 60%; Give label more space */
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.setting-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%; /* Take full width */
+  justify-content: flex-end; /* Align controls to the right */
+}
+
+.setting-controls.full-width {
+    justify-content: space-between; /* For sliders/selects */
+}
+
+
+.setting-controls button {
+  width: 32px; /* Slightly larger buttons */
+  height: 32px;
+  font-size: 1.4rem;
+  line-height: 1; /* Center text vertically */
+  padding: 0;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-button-bg);
+  color: var(--color-button-text);
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+.setting-controls button:hover {
+   background-color: var(--color-button-hover-bg);
+}
+.setting-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(--color-button-bg); /* Ensure disabled bg matches */
+}
+
+
+.setting-controls span, .setting-controls input[type="number"] {
+  min-width: 35px; /* Ensure number doesn't jump around */
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.setting-controls input[type="number"] {
+    width: 55px;
+    padding: 6px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border-radius: 4px;
+    text-align: center;
+}
+/* Hide number input arrows (optional) */
+.setting-controls input[type=number]::-webkit-inner-spin-button,
+.setting-controls input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+
+/* Input range (volume slider) */
+input[type="range"] {
+  flex-grow: 1; /* Allow slider to take available space */
+  cursor: pointer;
+  accent-color: var(--color-primary); /* Style the slider thumb and track */
+  height: 6px; /* Make slider track thicker */
+  background: var(--color-button-bg); /* Track background */
+  border-radius: 3px;
+  outline: none;
+  margin: 0 10px; /* Space around slider */
+}
+/* Thumb styles (cross-browser) */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+
+/* Select dropdown */
+select {
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border-radius: 4px;
+  cursor: pointer;
+  flex-grow: 1; /* Allow select to take space */
+  margin-left: 10px; /* Space from label */
+}
+
+/* Checkbox/Toggle */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px; /* Width of the switch */
+  height: 26px; /* Height of the switch */
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-button-bg);
+  transition: .4s;
+  border-radius: 26px; /* Rounded slider */
+   border: 1px solid var(--color-border);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px; /* Size of the knob */
+  width: 20px; /* Size of the knob */
+  left: 2px; /* Padding from the left */
+  bottom: 2px; /* Padding from the bottom */
+  background-color: white;
+   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: .4s;
+  border-radius: 50%;
+}
+body.dark-mode .slider:before {
+    background-color: #ccc; /* Dark mode knob */
+}
+
+
+input:checked + .slider {
+  background-color: var(--color-primary);
+   border-color: var(--color-primary);
+}
+input:checked + .slider:before {
+  transform: translateX(24px); /* Move the knob across (width - knob_width - 2*padding) */
+}
+
+/* Close button inside settings */
+.settings-close-button {
+    margin-top: 20px;
+    width: 100%;
+}
+
+
+/* --- Media Queries for Responsiveness --- */
+@media (max-width: 600px) {
+  .app-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+  }
+
+  .controls {
+    gap: 8px;
+  }
+  .control-button, .settings-button-component {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+  .settings-panel {
+    width: calc(100% - 30px); /* Full width minus padding */
+    right: 15px;
+    left: 15px; /* Center on small screens */
+    top: 55px;
+    max-height: calc(100vh - 70px);
+  }
+
+  .setting-item {
+    margin-bottom: 15px;
+  }
+
+}
